@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+        }
+
+        form {
+            max-width: 300px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .branding {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #3c8dbc;
+        }
+
+        .btn-container {
+            text-align: center;
+        }
+
+        button {
+            background-color: #3c8dbc;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3c8dcf;
+        }
+
+        label {
+            font-weight: bold;
+            text-align: left;
+            width: 85%;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .alert {
+            padding: 10px;
+            background-color: #f9d6d5;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .alert-danger {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+
+    </style>
+</head>
+
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <div class="branding">Chat-App</div>
+
+        {% if form.errors %}
+            
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    <p>{{ form.non_field_errors.0|escape }}</p>
+                </div>
+            {% endif %}
+
+            
+            {% for field in form %}
+                {% if field.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <p>{{ field.errors.0|escape }}</p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        
+        <label for="id_username">Username</label>
+        {{ form.username }}
+
+        
+        <label for="id_password1">Password</label>
+        {{ form.password1 }}
+		<label for="id_password2">Password</label>
+        {{ form.password2 }}
+        <div class="btn-container">
+            <button type="submit">Signup</button>
+        </div>
+
+        <p>Already have an account? <a href="{% url 'users:login' %}">Login</a></p>
+    </form>
+</body>
+
+</html>
